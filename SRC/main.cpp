@@ -185,20 +185,20 @@ int main(int argc, char const *argv[])
         return 0;
     }
     pairs<<"NeuronA,NeuronB,STTC,CtrlGrpMean,CtrlGrpStDev,CtrlGrpMedian,Percentile\n";
-    
-    ofstream pairs_cg;
-    pairs_cg.open(("RESULTS/" + string(argv[3]) + "_" + shifts_s + "-shifts_" + 
-                                            Dt_s + "-dt_pairs_cg.csv").c_str());
-    if (!pairs_cg.is_open()) {
-        cout<<"Error opening results pairs_cg file!"<<endl;
-        return 0;
-    }
-    pairs_cg<<"NeuronA,NeuronB,STTC";
-    for (int i = 0; i < circ_shifts_num; ++i) {
-        pairs_cg<<",STTC_"<<i+1;
-    }
-    pairs_cg<<"\n";
-    
+
+    // ofstream pairs_cg;
+    // pairs_cg.open(("RESULTS/" + string(argv[3]) + "_" + shifts_s + "-shifts_" +
+    //                                         Dt_s + "-dt_pairs_cg.csv").c_str());
+    // if (!pairs_cg.is_open()) {
+    //     cout<<"Error opening results pairs_cg file!"<<endl;
+    //     return 0;
+    // }
+    // pairs_cg<<"NeuronA,NeuronB,STTC";
+    // for (int i = 0; i < circ_shifts_num; ++i) {
+    //     pairs_cg<<",STTC_"<<i+1;
+    // }
+    // pairs_cg<<"\n";
+
     for (int a = 0; a < neurons; a++) { // Neuron A
         int* tl_A = tl_array[a];
         int tl_A_size = tl_sizes[a];
@@ -244,16 +244,16 @@ int main(int argc, char const *argv[])
                 if (double(denominator) < (0.8 * circ_shifts_num)) {continue;}
                 
                 int b_real = map[b];
-                
-                #pragma omp critical
-                {
-                    pairs_cg << a_real << ',' << b_real << ',' << pair_sttc;
-                    for (int i = 0; i < circ_shifts_num; i++) {
-                        pairs_cg << ',' << shifted_res_arr[i];
-                    }
-                    pairs_cg << '\n';
-                }
-                
+
+                // #pragma omp critical
+                // {
+                //     pairs_cg << a_real << ',' << b_real << ',' << pair_sttc;
+                //     for (int i = 0; i < circ_shifts_num; i++) {
+                //         pairs_cg << ',' << shifted_res_arr[i];
+                //     }
+                //     pairs_cg << '\n';
+                // }
+
                 mean /= denominator;
                 
             // Sorting of null STTC values
@@ -282,8 +282,8 @@ int main(int argc, char const *argv[])
                 double percentile = pos / double(denominator);
                 
                 #pragma omp critical
-                pairs << a_real << ',' << b_real << ',' << pair_sttc 
-                                << ',' << mean << ',' << st_dev 
+                pairs << a_real << ',' << b_real << ',' << pair_sttc
+                                << ',' << mean << ',' << st_dev
                                 << ',' << median << ',' << percentile << '\n';
             }
             free(to_shift);
@@ -291,8 +291,8 @@ int main(int argc, char const *argv[])
     }
     
     pairs.close();
-    pairs_cg.close();
-    
+    // pairs_cg.close();
+
 // Free memory
     for (int neur = 0; neur < neurons; ++neur) {
         free(tl_array[neur]);
