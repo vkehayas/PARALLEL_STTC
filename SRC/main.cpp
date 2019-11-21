@@ -224,10 +224,9 @@ int main(int argc, char const *argv[])
                 if (pair_sttc == 2.0) {continue;}
                 int denominator = circ_shifts_num;
                 double mean = 0;
-                for (int shift = 1; shift < circ_shifts_num; shift++) {
-                    // unsigned int random = random_gen(total_time_samples);
-                    // not needed since switching to deterministic circular shift
-                    circular_shift(to_shift, tl_A, tl_A_size, shift,
+                for (int shift = 0; shift < circ_shifts_num; shift++) {
+                    unsigned int random = random_gen(total_time_samples);
+                    circular_shift(to_shift, tl_A, tl_A_size, random,
                                                         total_time_samples);
                     double tAp_s = T_A_plus(to_shift, tl_A_size, total_time_samples, 
                                                                         Dt);
