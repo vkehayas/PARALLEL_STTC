@@ -184,7 +184,7 @@ int main(int argc, char const *argv[])
         cout<<"Error opening results pairs file!"<<endl;
         return 0;
     }
-    pairs<<"NeuronA,NeuronB,STTC,CtrlGrpMean,CtrlGrpStDev,CtrlGrpMedian,Percentile\n";
+    pairs<<"NeuronA,NeuronB,STTC,CtrlGrpMean,CtrlGrpStDev,NullSTTC\n";
 
     // ofstream pairs_cg;
     // pairs_cg.open(("RESULTS/" + string(argv[3]) + "_" + shifts_s + "-shifts_" +
@@ -283,7 +283,7 @@ int main(int argc, char const *argv[])
                 #pragma omp critical
                 pairs << a_real << ',' << b_real << ',' << pair_sttc
                                 << ',' << mean << ',' << st_dev
-                                << ',' << median << ',' << percentile << '\n';
+                                << ',' << shifted_res_arr[1] << '\n';
             }
             free(to_shift);
         }
