@@ -255,8 +255,9 @@ int main(int argc, char const *argv[])
 
                 mean /= denominator;
                 
+                // Not needed since we are not saving the percentile
             // Sorting of null STTC values
-                sort(shifted_res_arr, (shifted_res_arr + circ_shifts_num));
+            //    sort(shifted_res_arr, (shifted_res_arr + circ_shifts_num));
                 
                 double st_dev = 0.0;
                 for (int i = 0; i < denominator; i++) {
@@ -264,26 +265,28 @@ int main(int argc, char const *argv[])
                 }
                 st_dev = sqrt(st_dev / denominator);
                 
-                double median;
-                if (denominator % 2) {
-                    median = shifted_res_arr[denominator / 2];
-                }
-                else {
-                    median = (shifted_res_arr[denominator / 2 - 1] + 
-                                shifted_res_arr[denominator / 2]) / 2.0;
-                }
+                // Not needed since we are not saving the median
+//                double median;
+//                if (denominator % 2) {
+//                    median = shifted_res_arr[denominator / 2];
+//                }
+//                else {
+//                    median = (shifted_res_arr[denominator / 2 - 1] + 
+//                                shifted_res_arr[denominator / 2]) / 2.0;
+//                }
                 
-                int pos = 0; 
-                while (pos < denominator && 
-                                    shifted_res_arr[pos] <= pair_sttc) {
-                    ++pos;
-                }
-                double percentile = pos / double(denominator);
+                // Not needed since we are not saving the percentile
+//                int pos = 0; 
+//                while (pos < denominator && 
+//                                    shifted_res_arr[pos] <= pair_sttc) {
+//                    ++pos;
+//                }
+//                double percentile = pos / double(denominator);
                 
                 #pragma omp critical
                 pairs << a_real << ',' << b_real << ',' << pair_sttc
                                 << ',' << mean << ',' << st_dev
-                                << ',' << shifted_res_arr[1] << '\n';
+                                << ',' << shifted_res_arr[0] << '\n';
             }
             free(to_shift);
         }
